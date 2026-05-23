@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Logs and run outputs
+*.log
+output/
+checkpoints/
+
+# Local data archives/artifacts
+data/**/*.zip
+data/**/__MACOSX/
+__MACOSX/

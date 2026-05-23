@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import pandas as pd
 
@@ -9,6 +11,27 @@ class Sampler(object):
         self.search = search
         self.user_vocab = user_vocab
         self.data = pd.read_pickle(data_path)
+        self.drop_empty_history_rows(data_path)
+
+    def drop_empty_history_rows(self, data_path):
+        rec_empty = self.data['rec_his'] == 0
+        src_empty = self.data['src_session_his'] == 0
+        drop_mask = rec_empty | src_empty
+        drop_num = int(drop_mask.sum())
+        old_num = len(self.data)
+
+        if drop_num > 0:
+            rec_empty_num = int(rec_empty.sum())
+            src_empty_num = int(src_empty.sum())
+            both_empty_num = int((rec_empty & src_empty).sum())
+            self.data = self.data.loc[~drop_mask].reset_index(drop=True)
+            msg = (
+                "drop empty-history rows from {}: dropped={} / {}, "
+                "rec_his=0 {}, src_his=0 {}, both=0 {}, kept={}".format(
+                    data_path, drop_num, old_num, rec_empty_num,
+                    src_empty_num, both_empty_num, len(self.data)))
+            logging.info(msg)
+            print(msg)
 
     def sample(self, index):
         feed_dict = {}
