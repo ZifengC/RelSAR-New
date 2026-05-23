@@ -11,6 +11,23 @@ early_stop: 5
 num_layers: 1
 num_heads: 2
 
+intent_num: 8
+intent_heads: 2
+intent_dropout: 0.1
+intent_temp: 0.5
+intent_var_min: 0.0001
+intent_diversity_weight: 0.01
+intent_diversity_margin: 0.2
+
+belief_init_var: 1.0
+belief_init_mass: 1.0
+belief_prior_weight: 1.0
+belief_drift_decay: 0.98
+
+intent_bias_scale: 1.0
+cf_temp: 1.0
+cf_bias_scale: 1.0
+
 q_i_cl_temp: 0.5 
 q_i_cl_weight: 0.001
 
